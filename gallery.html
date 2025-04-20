@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>キャンバスギャラリー</title>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        background-color: #f0f2f5;
+      }
+
+      .gallery-header {
+        text-align: center;
+        margin: 30px 0;
+      }
+
+      .gallery-header h1 {
+        font-size: 32px;
+        margin-bottom: 10px;
+        color: #2c3e50;
+      }
+
+      .gallery-header p {
+        color: #7f8c8d;
+        font-size: 16px;
+      }
+
+      .gallery-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 25px;
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+      }
+
+      .gallery-item {
+        border-radius: 12px;
+        overflow: hidden;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .gallery-item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .canvas-preview {
+        display: grid;
+        width: 100%;
+        aspect-ratio: 1;
+        border-bottom: 1px solid #eee;
+      }
+
+      .canvas-info {
+        padding: 15px;
+        background-color: white;
+        font-size: 14px;
+        color: #555;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .canvas-date {
+        color: #95a5a6;
+      }
+
+      .no-items {
+        grid-column: 1 / -1;
+        padding: 40px;
+        background-color: white;
+        border-radius: 12px;
+        color: #7f8c8d;
+        text-align: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .action-buttons {
+        display: flex;
+        justify-content: center;
+        margin: 20px 0;
+      }
+
+      .action-buttons button {
+        padding: 10px 20px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .action-buttons button:hover {
+        background-color: #2980b9;
+      }
+
+      @media (max-width: 768px) {
+        .gallery-container {
+          grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="gallery-header">
+      <h1>キャンバスギャラリー</h1>
+      <p>完成したキャンバスアートのコレクション</p>
+    </div>
+
+    <div class="action-buttons">
+      <button id="back-to-app">アプリに戻る</button>
+    </div>
+
+    <div id="gallery-container" class="gallery-container">
+      <!-- ギャラリーアイテムがここに表示されます -->
+    </div>
+
+    <script>
+      // ローカルストレージのキー
+      const GALLERY_ITEMS_KEY = "task_app_gallery_items";
+
+      // ギャラリーアイテムの表示
+      function displayGalleryItems() {
+        const galleryContainer = document.getElementById("gallery-container");
+        const galleryItemsJSON = localStorage.getItem(GALLERY_ITEMS_KEY);
+
+        if (!galleryItemsJSON || JSON.parse(galleryItemsJSON).length === 0) {
+          galleryContainer.innerHTML =
+            '<div class="no-items">' +
+            "<h3>ギャラリーにはまだ作品がありません</h3>" +
+            "<p>キャンバスを完成させて、ここに作品を追加しましょう</p>" +
+            "</div>";
+          return;
+        }
+
+        const galleryItems = JSON.parse(galleryItemsJSON);
+        galleryContainer.innerHTML = "";
+
+        // 新しいアイテムが先頭に来るようにソート
+        galleryItems
+          .sort((a, b) => b.id - a.id)
+          .forEach((item) => {
+            const galleryItem = document.createElement("div");
+            galleryItem.classList.add("gallery-item");
+
+            // キャンバスプレビューの作成
+            const canvasPreview = document.createElement("div");
+            canvasPreview.classList.add("canvas-preview");
+
+            // グリッドの設定
+            canvasPreview.style.gridTemplateColumns = `repeat(${item.canvasSize}, 1fr)`;
+            canvasPreview.style.gridTemplateRows = `repeat(${item.canvasSize}, 1fr)`;
+
+            // セルの作成
+            for (let i = 0; i < item.canvasData.length; i++) {
+              const cell = document.createElement("div");
+              cell.style.backgroundColor = item.canvasData[i] || "#ffffff";
+              canvasPreview.appendChild(cell);
+            }
+
+            // 情報の作成
+            const canvasInfo = document.createElement("div");
+            canvasInfo.classList.add("canvas-info");
+
+            // 作品番号
+            const artworkNumber = document.createElement("div");
+            artworkNumber.textContent = `作品 #${
+              galleryItems.length - galleryItems.indexOf(item)
+            }`;
+            artworkNumber.style.fontWeight = "bold";
+
+            // 日付
+            const dateElement = document.createElement("div");
+            dateElement.classList.add("canvas-date");
+            dateElement.textContent = `${item.date.split(" ")[0]}`;
+
+            canvasInfo.appendChild(artworkNumber);
+            canvasInfo.appendChild(dateElement);
+
+            galleryItem.appendChild(canvasPreview);
+            galleryItem.appendChild(canvasInfo);
+            galleryContainer.appendChild(galleryItem);
+          });
+      }
+
+      // アプリに戻るボタン
+      document
+        .getElementById("back-to-app")
+        .addEventListener("click", function () {
+          window.location.href = "index.html";
+        });
+
+      // ページロード時にギャラリーを表示
+      document.addEventListener("DOMContentLoaded", displayGalleryItems);
+    </script>
+  </body>
+</html>

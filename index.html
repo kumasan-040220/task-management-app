@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>タスク習慣化アプリ</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>タスク習慣化アプリ</h1>
+        <div class="points-container">
+          <p><span id="remaining-points">3</span></p>
+        </div>
+        <div class="nav-links">
+          <a href="gallery.html" class="gallery-link">ギャラリーを見る</a>
+        </div>
+      </header>
+
+      <main>
+        <div class="task-section">
+          <form id="task-form">
+            <input
+              type="text"
+              id="task-input"
+              placeholder="新しいタスクを入力"
+            />
+            <div class="task-properties">
+              <div class="property">
+                <label class="property-label">重要度:</label>
+                <div class="radio-buttons">
+                  <div class="radio-option">
+                    <input
+                      type="radio"
+                      id="importance-high"
+                      name="importance"
+                      value="high"
+                      checked
+                    />
+                    <label for="importance-high">高</label>
+                  </div>
+                  <div class="radio-option">
+                    <input
+                      type="radio"
+                      id="importance-low"
+                      name="importance"
+                      value="low"
+                    />
+                    <label for="importance-low">低</label>
+                  </div>
+                </div>
+              </div>
+              <div class="property">
+                <label class="property-label">緊急性:</label>
+                <div class="radio-buttons">
+                  <div class="radio-option">
+                    <input
+                      type="radio"
+                      id="urgency-high"
+                      name="urgency"
+                      value="high"
+                      checked
+                    />
+                    <label for="urgency-high">高</label>
+                  </div>
+                  <div class="radio-option">
+                    <input
+                      type="radio"
+                      id="urgency-low"
+                      name="urgency"
+                      value="low"
+                    />
+                    <label for="urgency-low">低</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button type="submit">追加</button>
+          </form>
+
+          <div class="task-list-container">
+            <ul id="task-list"></ul>
+          </div>
+        </div>
+
+        <div class="canvas-section">
+          <h2>進捗キャンバス</h2>
+          <div class="canvas-container">
+            <div id="progress-canvas" class="progress-canvas"></div>
+          </div>
+        </div>
+
+        <div class="palette-section">
+          <h2>カラーパレット</h2>
+          <div id="color-palette" class="color-palette"></div>
+        </div>
+      </main>
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>強制リロード</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        text-align: center;
+      }
+      button {
+        padding: 15px 25px;
+        background-color: #e74c3c;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 20px 0;
+        font-size: 18px;
+        font-weight: bold;
+      }
+      button:hover {
+        background-color: #c0392b;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Live Server 強制リロード</h1>
+    <p>
+      Live Serverのキャッシュをクリアして、変更が反映されるようにします。
+      以下のボタンをクリックすると、各ページを強制的にリロードします。
+    </p>
+
+    <button id="reload-app">アプリをハードリロード</button>
+    <button id="reload-debug">デバッグツールをハードリロード</button>
+    <button id="clear-cache">ローカルストレージをクリア</button>
+
+    <script>
+      // アプリを強制リロード
+      document
+        .getElementById("reload-app")
+        .addEventListener("click", function () {
+          // キャッシュを無効化するクエリパラメータを付加
+          const timestamp = new Date().getTime();
+          window.location.href = `index.html?nocache=${timestamp}`;
+        });
+
+      // デバッグツールを強制リロード
+      document
+        .getElementById("reload-debug")
+        .addEventListener("click", function () {
+          // キャッシュを無効化するクエリパラメータを付加
+          const timestamp = new Date().getTime();
+          window.location.href = `debug.html?nocache=${timestamp}`;
+        });
+
+      // ローカルストレージをクリア
+      document
+        .getElementById("clear-cache")
+        .addEventListener("click", function () {
+          try {
+            // アプリ関連のすべてのキーを削除
+            localStorage.removeItem("task_app_tasks");
+            localStorage.removeItem("task_app_completed_tasks");
+            localStorage.removeItem("task_app_canvas");
+            localStorage.removeItem("task_app_remaining_points");
+            localStorage.removeItem("task_app_last_date");
+            localStorage.removeItem("task_app_palette_colors");
+
+            alert(
+              "ローカルストレージをクリアしました。ページをリロードしてください。"
+            );
+          } catch (e) {
+            alert("エラーが発生しました: " + e.message);
+          }
+        });
+    </script>
+  </body>
+</html>

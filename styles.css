@@ -1,0 +1,388 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f5f5;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 24px;
+  color: #2c3e50;
+}
+
+h2 {
+  font-size: 20px;
+  margin-bottom: 15px;
+  color: #2c3e50;
+}
+
+h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.points-container {
+  display: flex;
+  gap: 20px;
+}
+
+.points-container p {
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 15px;
+}
+
+.nav-links a {
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #3498db;
+  border: 1px solid #3498db;
+  border-radius: 4px;
+  font-size: 14px;
+  transition: all 0.3s;
+}
+
+.nav-links a:hover {
+  background-color: #3498db;
+  color: white;
+}
+
+.gallery-link {
+  background-color: #f8f9fa;
+}
+
+main {
+  display: grid;
+  grid-template-columns: 0.7fr 1fr 250px;
+  gap: 20px;
+}
+
+.canvas-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+}
+
+.task-section {
+  background-color: #fff;
+  padding: 25px 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.palette-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.canvas-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
+
+.progress-canvas {
+  width: 100%;
+  aspect-ratio: 1;
+  max-width: 400px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  display: grid;
+}
+
+.progress-canvas .cell {
+  border: 2px solid #e0e0e0;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.progress-canvas .cell:hover {
+  transform: scale(0.97);
+  box-shadow: inset 0 0 0 2px rgba(52, 152, 219, 0.5);
+}
+
+#task-form {
+  margin-bottom: 20px;
+  padding: 0 10px;
+}
+
+#task-input {
+  width: 100%;
+  padding: 16px 12px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 15px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  height: 55px;
+}
+
+#task-input:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+}
+
+.task-properties {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  gap: 15px;
+  padding: 0 5px;
+}
+
+.property {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+}
+
+.property-label {
+  font-weight: bold;
+  color: #555;
+  min-width: 60px;
+  flex-shrink: 0;
+}
+
+.radio-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-start;
+  flex: 1;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+}
+
+.radio-option input[type="radio"] {
+  display: none;
+}
+
+.radio-option label {
+  padding: 8px 12px;
+  background-color: #f0f2f5;
+  border: 2px solid #e0e0e0;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  min-width: 50px;
+  text-align: center;
+  display: block;
+}
+
+.radio-option input[type="radio"]:checked + label {
+  background-color: #3498db;
+  color: white;
+  border-color: #3498db;
+  font-weight: bold;
+}
+
+select {
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+#task-form button[type="submit"] {
+  width: 100%;
+  padding: 12px 15px;
+  margin-top: 10px;
+  font-size: 16px;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+#task-list {
+  list-style-type: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.task-item {
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.task-content {
+  flex: 1;
+}
+
+.task-name {
+  font-weight: bold;
+  margin-bottom: 3px;
+}
+
+.task-meta {
+  font-size: 12px;
+  color: #666;
+}
+
+.task-actions {
+  display: flex;
+  gap: 5px;
+}
+
+.task-actions button {
+  padding: 5px 8px;
+  font-size: 12px;
+}
+
+.color-palette {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(12, 1fr);
+  gap: 8px;
+}
+
+.color-swatch {
+  width: 100%;
+  height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: transform 0.2s;
+}
+
+.color-swatch:hover {
+  transform: scale(1.1);
+}
+
+.color-swatch.selected {
+  border: 2px solid #000;
+}
+
+.important-urgent {
+  background-color: rgba(231, 76, 60, 0.2);
+  border-left: 4px solid #e74c3c;
+}
+
+.important-not-urgent {
+  background-color: rgba(241, 196, 15, 0.2);
+  border-left: 4px solid #f1c40f;
+}
+
+.not-important-urgent {
+  background-color: rgba(52, 152, 219, 0.2);
+  border-left: 4px solid #3498db;
+}
+
+.not-important-not-urgent {
+  background-color: rgba(149, 165, 166, 0.2);
+  border-left: 4px solid #95a5a6;
+}
+
+@media (max-width: 1000px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+  }
+
+  .task-section {
+    order: 1;
+  }
+
+  .canvas-section {
+    order: 2;
+  }
+
+  .palette-section {
+    order: 3;
+  }
+}
+
+@media (max-width: 600px) {
+  .task-properties {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .property {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .property {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .property-label {
+    margin-bottom: 4px;
+  }
+
+  .radio-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .radio-option {
+    flex: 1;
+  }
+}
+
+.task-list-container {
+  margin-top: 30px;
+  padding: 0 10px;
+}

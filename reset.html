@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>アプリリセット</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      button {
+        padding: 10px 15px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 10px 0;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>アプリのリセット</h1>
+    <p>
+      以下のボタンを押すと、アプリのローカルストレージデータがリセットされ、ポイント数が1000になります。
+    </p>
+
+    <button id="reset-btn">リセットして再読み込み</button>
+
+    <script>
+      document
+        .getElementById("reset-btn")
+        .addEventListener("click", function () {
+          // ローカルストレージの特定キーをクリア
+          localStorage.removeItem("task_app_tasks");
+          localStorage.removeItem("task_app_completed_tasks");
+          localStorage.removeItem("task_app_canvas");
+          localStorage.removeItem("task_app_remaining_points");
+          localStorage.removeItem("task_app_last_date");
+          localStorage.removeItem("task_app_palette_colors");
+
+          alert(
+            "ストレージをリセットしました。アプリが再読み込みされ、ポイントが1000になります。"
+          );
+
+          // index.htmlに移動
+          window.location.href = "index.html";
+        });
+    </script>
+  </body>
+</html>

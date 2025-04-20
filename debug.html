@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>キャンバスデバッグツール</title>
+    <style>
+      body {
+        font-family: "Helvetica Neue", Arial, sans-serif;
+        line-height: 1.6;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      button {
+        padding: 10px 15px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        margin: 10px 0;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #2980b9;
+      }
+      .canvas-display {
+        margin: 20px 0;
+        padding: 10px;
+        background-color: #f8f9fa;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        white-space: pre-wrap;
+        font-family: monospace;
+      }
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin: 20px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>キャンバスデバッグツール</h1>
+    <p>現在のキャンバスデータを確認し、必要に応じて修正できます。</p>
+
+    <div class="action-buttons">
+      <button id="show-data">キャンバスデータ表示</button>
+      <button id="force-complete">強制的に完成状態にする</button>
+      <button id="reset-canvas">キャンバスをリセットする</button>
+      <button id="toggle-override">上書き許可切替</button>
+      <button id="back-to-app">アプリに戻る</button>
+    </div>
+
+    <div id="canvas-data" class="canvas-display"></div>
+    <div id="override-status" class="canvas-display"></div>
+
+    <script>
+      // キャンバスデータの表示
+      document
+        .getElementById("show-data")
+        .addEventListener("click", function () {
+          const canvasData = localStorage.getItem("task_app_canvas");
+          const canvasDisplay = document.getElementById("canvas-data");
+
+          if (canvasData) {
+            try {
+              const parsedData = JSON.parse(canvasData);
+              canvasDisplay.textContent =
+                "現在のキャンバスデータ:\n" +
+                JSON.stringify(parsedData, null, 2) +
+                "\n\n長さ: " +
+                parsedData.length +
+                "\nnull値の数: " +
+                parsedData.filter((item) => item === null).length;
+            } catch (e) {
+              canvasDisplay.textContent = "エラー: " + e.message;
+            }
+          } else {
+            canvasDisplay.textContent = "キャンバスデータが見つかりません。";
+          }
+        });
+
+      // 強制的に完成状態にする
+      document
+        .getElementById("force-complete")
+        .addEventListener("click", function () {
+          try {
+            // アプリの状態からキャンバスサイズを取得
+            const canvasSize = 2; // 現在のキャンバスサイズ
+
+            // すべてのセルに色を設定（赤色で埋める）
+            const newCanvasData = Array(canvasSize * canvasSize).fill(
+              "#ff0000"
+            );
+
+            // ローカルストレージに保存
+            localStorage.setItem(
+              "task_app_canvas",
+              JSON.stringify(newCanvasData)
+            );
+
+            alert(
+              "キャンバスを完成状態に設定しました。アプリをリロードすると完成のアラートが表示されるはずです。"
+            );
+            document.getElementById("canvas-data").textContent =
+              "新しいキャンバスデータ:\n" +
+              JSON.stringify(newCanvasData, null, 2);
+          } catch (e) {
+            alert("エラーが発生しました: " + e.message);
+          }
+        });
+
+      // キャンバスをリセットする
+      document
+        .getElementById("reset-canvas")
+        .addEventListener("click", function () {
+          try {
+            // アプリの状態からキャンバスサイズを取得
+            const canvasSize = 2; // 現在のキャンバスサイズ
+
+            // すべてのセルをnullに設定
+            const newCanvasData = Array(canvasSize * canvasSize).fill(null);
+
+            // ローカルストレージに保存
+            localStorage.setItem(
+              "task_app_canvas",
+              JSON.stringify(newCanvasData)
+            );
+
+            alert("キャンバスをリセットしました。");
+            document.getElementById("canvas-data").textContent =
+              "新しいキャンバスデータ:\n" +
+              JSON.stringify(newCanvasData, null, 2);
+          } catch (e) {
+            alert("エラーが発生しました: " + e.message);
+          }
+        });
+
+      // 上書き許可切替
+      document
+        .getElementById("toggle-override")
+        .addEventListener("click", function () {
+          try {
+            // 現在の上書き許可状態を確認
+            const currentOverrideStatus =
+              localStorage.getItem("task_app_override_allowed") === "true";
+
+            // 状態を反転
+            const newOverrideStatus = !currentOverrideStatus;
+
+            // 新しい状態を保存
+            localStorage.setItem(
+              "task_app_override_allowed",
+              newOverrideStatus.toString()
+            );
+
+            // 状態表示を更新
+            updateOverrideStatus();
+
+            alert(
+              newOverrideStatus
+                ? "キャンバスの上書きを許可しました。アプリでセルをクリックすると上書きできます。"
+                : "キャンバスの上書きを禁止しました。通常の動作に戻ります。"
+            );
+          } catch (e) {
+            alert("エラーが発生しました: " + e.message);
+          }
+        });
+
+      // 上書き許可状態の表示を更新
+      function updateOverrideStatus() {
+        const overrideStatus =
+          localStorage.getItem("task_app_override_allowed") === "true";
+        const statusElement = document.getElementById("override-status");
+
+        statusElement.textContent =
+          "上書き許可状態: " + (overrideStatus ? "許可" : "禁止");
+        statusElement.style.color = overrideStatus ? "green" : "red";
+      }
+
+      // アプリに戻る
+      document
+        .getElementById("back-to-app")
+        .addEventListener("click", function () {
+          window.location.href = "index.html";
+        });
+
+      // 初期表示
+      document.getElementById("show-data").click();
+      updateOverrideStatus();
+    </script>
+  </body>
+</html>
