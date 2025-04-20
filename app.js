@@ -5,7 +5,7 @@ const state = {
   completedTasks: [],
   canvasData: [],
   dailyPointsLimit: 3,
-  remainingPoints: 1000, // デバッグのために1000ポイントに設定
+  remainingPoints: 3, // デバッグ用の1000ポイントから実用的な値に変更
   canvasSize: 2, // デフォルトは2×2
   paletteColors: [], // パレットの色情報を保存
   isMouseDown: false, // マウスのドラッグ状態を追跡
@@ -62,8 +62,8 @@ function checkForNewDay() {
   const today = new Date().toLocaleDateString();
 
   if (lastDate !== today) {
-    // 新しい日に残りポイントをリセット（デバッグのため1000ポイントに設定）
-    state.remainingPoints = 1000; // デバッグ用
+    // 新しい日に残りポイントをリセット
+    state.remainingPoints = state.dailyPointsLimit; // デバッグ用の1000ポイントから実際の上限値に変更
     // 残りの塗り回数は保持する（リセットしない）
     localStorage.setItem(STORAGE_KEYS.LAST_DATE, today);
     updatePointsDisplay();
